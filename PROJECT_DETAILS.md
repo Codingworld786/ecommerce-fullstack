@@ -24,8 +24,6 @@ Build a **full-flow ecommerce website** (men’s and women’s clothing) that fe
 | **3. Full flow** | Session cart (dict `product_id → quantity`), session wishlist (list of `product_id`), session orders (list of order dicts). Routes for cart, wishlist, checkout (address → payment → place order), order confirmation. |
 | **4. UX polish** | Header: search placeholder, cart/wishlist icons with counts. Product cards: wishlist heart, Add to cart, Buy now. Flash messages. Footer links. Responsive layout and forms. |
 
-No formal “design doc” was written first; the plan above was the mental model and then implemented in code.
-
 ---
 
 ## 2. Steps Taken to Execute the Plan
@@ -33,7 +31,7 @@ No formal “design doc” was written first; the plan above was the mental mode
 1. **Scaffold**  
    Created `app.py`, `templates/base.html`, `templates/index.html`, `static/css/style.css`, `static/js/main.js`, `requirements.txt`.
 
-2. **Data model (in code)**  
+2. **Data model**  
    - `PRODUCTS`: list of dicts (id, name, category, price, image, description).  
    - `PRODUCTS_BY_ID`: same data keyed by id for O(1) lookup.
 
