@@ -1,6 +1,5 @@
 # Product images – put your photos here
 
-There are **no images** in the project by default. To use your own product photos:
 
 1. **Place your image files in this folder:**  
    `ecommerce/static/images/products/`
