@@ -1,0 +1,60 @@
+{% extends "base.html" %}
+{% block title %}Payment – Thread & Co.{% endblock %}
+{% block content %}
+<section class="page-header">
+    <h1>Payment</h1>
+    <p>Step 2 of 2 – Secure payment (demo)</p>
+</section>
+<div class="checkout-layout">
+    <div class="checkout-form-wrap">
+        <form method="post" class="checkout-form payment-form">
+            <h2>Payment method</h2>
+            <p class="form-hint">This is a demo. Use any dummy card details (e.g. 4242 4242 4242 4242).</p>
+            <div class="form-group full">
+                <label for="name_on_card">Name on card *</label>
+                <input type="text" id="name_on_card" name="name_on_card" value="{{ payment.get('name_on_card', '') }}" placeholder="John Doe" required>
+            </div>
+            <div class="form-group full">
+                <label for="card_number">Card number *</label>
+                <input type="text" id="card_number" name="card_number" value="{{ payment.get('card_number', '') }}" placeholder="4242 4242 4242 4242" maxlength="19" required>
+            </div>
+            <div class="form-row">
+                <div class="form-group">
+                    <label for="expiry">Expiry (MM/YY) *</label>
+                    <input type="text" id="expiry" name="expiry" value="{{ payment.get('expiry', '') }}" placeholder="12/28" maxlength="5" required>
+                </div>
+                <div class="form-group">
+                    <label for="cvv">CVV *</label>
+                    <input type="text" id="cvv" name="cvv" value="{{ payment.get('cvv', '') }}" placeholder="123" maxlength="4" required>
+                </div>
+            </div>
+            <button type="submit" class="btn btn-primary btn-block">Save payment details</button>
+        </form>
+        {% if payment.get('card_number') or payment.get('name_on_card') %}
+        <form action="{{ url_for('place_order') }}" method="post" class="place-order-form">
+            <button type="submit" class="btn btn-buy btn-block">Place order – ${{ "%.2f"|format(subtotal + 5.99 + (subtotal * 0.08)) }}</button>
+        </form>
+        <p class="form-hint">Payment saved. Click above to place your order.</p>
+        {% endif %}
+        <p class="back-link"><a href="{{ url_for('checkout') }}">← Back to address</a></p>
+    </div>
+    <div class="checkout-order-summary">
+        <div class="summary-box">
+            <h2>Order summary</h2>
+            <ul class="summary-items">
+                {% for item in cart_items %}
+                <li>
+                    <span class="summary-item-name">{{ item.product.name }} × {{ item.quantity }}</span>
+                    <span class="summary-item-price">${{ "%.2f"|format(item.subtotal) }}</span>
+                </li>
+                {% endfor %}
+            </ul>
+            <div class="summary-row">
+                <span>Subtotal</span>
+                <span>${{ "%.2f"|format(subtotal) }}</span>
+            </div>
+            <p class="summary-note">Shipping ~$5.99, tax ~8% applied on place order.</p>
+        </div>
+    </div>
+</div>
+{% endblock %}

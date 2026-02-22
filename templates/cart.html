@@ -1,0 +1,60 @@
+{% extends "base.html" %}
+{% block title %}Shopping Cart – Thread & Co.{% endblock %}
+{% block content %}
+<section class="page-header">
+    <h1>Shopping Cart</h1>
+    {% if cart_items %}
+    <p>{{ cart_items|length }} item(s)</p>
+    {% endif %}
+</section>
+{% if cart_items %}
+<div class="cart-layout">
+    <div class="cart-items">
+        {% for item in cart_items %}
+        <div class="cart-item" data-product-id="{{ item.product.id }}">
+            <a href="{{ url_for('product_detail', product_id=item.product.id) }}" class="cart-item-image-link">
+                <div class="cart-item-image">
+                    <img src="{{ url_for('static', filename='images/products/' + item.product.image) }}" alt="{{ item.product.name }}" onerror="this.style.display='none'">
+                    <span class="product-placeholder">{{ item.product.name[0] }}</span>
+                </div>
+            </a>
+            <div class="cart-item-details">
+                <a href="{{ url_for('product_detail', product_id=item.product.id) }}" class="cart-item-name">{{ item.product.name }}</a>
+                <p class="cart-item-price">${{ "%.2f"|format(item.product.price) }} each</p>
+                <form action="{{ url_for('cart_update', product_id=item.product.id) }}" method="post" class="cart-item-qty-form">
+                    <label for="qty-{{ item.product.id }}">Qty:</label>
+                    <select name="quantity" id="qty-{{ item.product.id }}" onchange="this.form.submit()">
+                        {% for n in range(1, 10) %}
+                        <option value="{{ n }}" {% if item.quantity == n %}selected{% endif %}>{{ n }}</option>
+                        {% endfor %}
+                        <option value="0">0 (remove)</option>
+                    </select>
+                </form>
+                <form action="{{ url_for('cart_remove', product_id=item.product.id) }}" method="post" class="form-inline">
+                    <button type="submit" class="link-remove">Remove</button>
+                </form>
+            </div>
+            <div class="cart-item-subtotal">${{ "%.2f"|format(item.subtotal) }}</div>
+        </div>
+        {% endfor %}
+    </div>
+    <div class="cart-summary">
+        <div class="summary-box">
+            <h2>Order summary</h2>
+            <div class="summary-row">
+                <span>Subtotal ({{ cart_items|length }} item(s))</span>
+                <span>${{ "%.2f"|format(subtotal) }}</span>
+            </div>
+            <p class="summary-note">Shipping &amp; tax calculated at checkout.</p>
+            <a href="{{ url_for('checkout') }}" class="btn btn-checkout">Proceed to checkout</a>
+            <a href="{{ url_for('index') }}" class="link-continue">Continue shopping</a>
+        </div>
+    </div>
+</div>
+{% else %}
+<section class="empty-cart">
+    <p>Your cart is empty.</p>
+    <a href="{{ url_for('index') }}" class="btn btn-primary">Start shopping</a>
+</section>
+{% endif %}
+{% endblock %}

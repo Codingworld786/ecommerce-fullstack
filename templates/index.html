@@ -1,0 +1,56 @@
+{% extends "base.html" %}
+{% block title %}Thread & Co. – Clothing for Men & Women{% endblock %}
+{% block content %}
+<section class="hero">
+    <h1>Curated fashion for everyone</h1>
+    <p>Discover quality clothing for men and women. Add to cart, wishlist, and checkout.</p>
+</section>
+{% if filter_category %}
+<section class="filter-badge">
+    Showing: <strong>{{ 'Women' if filter_category == 'women' else 'Men' }}</strong>
+    <a href="{{ url_for('index') }}" class="clear-filter">View all</a>
+</section>
+{% endif %}
+<section class="products">
+    {% for product in products %}
+    <article class="product-card" data-product-id="{{ product.id }}">
+        <a href="{{ url_for('product_detail', product_id=product.id) }}" class="product-image-link">
+            <div class="product-image">
+                <img src="{{ url_for('static', filename='images/products/' + product.image) }}" alt="{{ product.name }}" loading="lazy" onerror="this.style.display='none'">
+                <span class="product-placeholder">{{ product.name[0] }}</span>
+            </div>
+        </a>
+        <div class="product-info">
+            <span class="product-category">{{ 'Women' if product.category == 'women' else 'Men' }}</span>
+            <h2 class="product-name">
+                <a href="{{ url_for('product_detail', product_id=product.id) }}">{{ product.name }}</a>
+            </h2>
+            <p class="product-desc">{{ product.description }}</p>
+            <div class="product-footer">
+                <span class="product-price">${{ "%.2f"|format(product.price) }}</span>
+                <div class="product-actions">
+                    <form action="{{ url_for('wishlist_toggle', product_id=product.id) }}" method="post" class="form-inline">
+                        <input type="hidden" name="next" value="{{ request.url }}">
+                        <button type="submit" class="btn-icon btn-wishlist" title="Add to wishlist" aria-label="Wishlist">
+                            <span class="icon-heart{% if product.id in wishlist_ids() %} is-liked{% endif %}"></span>
+                        </button>
+                    </form>
+                    <form action="{{ url_for('cart_add', product_id=product.id) }}" method="post" class="form-inline">
+                        <input type="hidden" name="next" value="{{ request.url }}">
+                        <button type="submit" class="btn-add">Add to cart</button>
+                    </form>
+                    <form action="{{ url_for('buy_now', product_id=product.id) }}" method="post" class="form-inline">
+                        <button type="submit" class="btn-buy-now">Buy now</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </article>
+    {% endfor %}
+</section>
+{% if not products %}
+<section class="empty">
+    <p>No products in this category yet.</p>
+</section>
+{% endif %}
+{% endblock %}

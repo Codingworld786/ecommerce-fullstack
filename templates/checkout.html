@@ -1,0 +1,68 @@
+{% extends "base.html" %}
+{% block title %}Checkout – Thread & Co.{% endblock %}
+{% block content %}
+<section class="page-header">
+    <h1>Checkout</h1>
+    <p>Step 1 of 2 – Shipping address</p>
+</section>
+<div class="checkout-layout">
+    <div class="checkout-form-wrap">
+        <form method="post" class="checkout-form">
+            <h2>Shipping address</h2>
+            <div class="form-grid">
+                <div class="form-group full">
+                    <label for="full_name">Full name *</label>
+                    <input type="text" id="full_name" name="full_name" value="{{ address.get('full_name', '') }}" placeholder="John Doe" required>
+                </div>
+                <div class="form-group full">
+                    <label for="address_line1">Address line 1 *</label>
+                    <input type="text" id="address_line1" name="address_line1" value="{{ address.get('address_line1', '') }}" placeholder="123 Main St" required>
+                </div>
+                <div class="form-group full">
+                    <label for="address_line2">Address line 2</label>
+                    <input type="text" id="address_line2" name="address_line2" value="{{ address.get('address_line2', '') }}" placeholder="Apt, suite, etc.">
+                </div>
+                <div class="form-group">
+                    <label for="city">City *</label>
+                    <input type="text" id="city" name="city" value="{{ address.get('city', '') }}" placeholder="New York" required>
+                </div>
+                <div class="form-group">
+                    <label for="state">State / Province</label>
+                    <input type="text" id="state" name="state" value="{{ address.get('state', '') }}" placeholder="NY">
+                </div>
+                <div class="form-group">
+                    <label for="zip_code">ZIP / Postal code *</label>
+                    <input type="text" id="zip_code" name="zip_code" value="{{ address.get('zip_code', '') }}" placeholder="10001" required>
+                </div>
+                <div class="form-group full">
+                    <label for="country">Country *</label>
+                    <input type="text" id="country" name="country" value="{{ address.get('country', 'United States') }}" placeholder="United States" required>
+                </div>
+                <div class="form-group full">
+                    <label for="phone">Phone *</label>
+                    <input type="tel" id="phone" name="phone" value="{{ address.get('phone', '') }}" placeholder="+1 234 567 8900" required>
+                </div>
+            </div>
+            <button type="submit" class="btn btn-primary btn-block">Continue to payment</button>
+        </form>
+    </div>
+    <div class="checkout-order-summary">
+        <div class="summary-box">
+            <h2>Order summary</h2>
+            <ul class="summary-items">
+                {% for item in cart_items %}
+                <li>
+                    <span class="summary-item-name">{{ item.product.name }} × {{ item.quantity }}</span>
+                    <span class="summary-item-price">${{ "%.2f"|format(item.subtotal) }}</span>
+                </li>
+                {% endfor %}
+            </ul>
+            <div class="summary-row">
+                <span>Subtotal</span>
+                <span>${{ "%.2f"|format(subtotal) }}</span>
+            </div>
+            <p class="summary-note">Shipping &amp; tax on next step.</p>
+        </div>
+    </div>
+</div>
+{% endblock %}

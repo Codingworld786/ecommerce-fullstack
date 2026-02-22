@@ -1,0 +1,50 @@
+{% extends "base.html" %}
+{% block title %}Wishlist – Thread & Co.{% endblock %}
+{% block content %}
+<section class="page-header">
+    <h1>Your Wishlist</h1>
+    {% if products %}
+    <p>{{ products|length }} item(s) saved</p>
+    {% endif %}
+</section>
+{% if products %}
+<section class="products wishlist-products">
+    {% for product in products %}
+    <article class="product-card" data-product-id="{{ product.id }}">
+        <a href="{{ url_for('product_detail', product_id=product.id) }}" class="product-image-link">
+            <div class="product-image">
+                <img src="{{ url_for('static', filename='images/products/' + product.image) }}" alt="{{ product.name }}" loading="lazy" onerror="this.style.display='none'">
+                <span class="product-placeholder">{{ product.name[0] }}</span>
+            </div>
+        </a>
+        <div class="product-info">
+            <span class="product-category">{{ 'Women' if product.category == 'women' else 'Men' }}</span>
+            <h2 class="product-name"><a href="{{ url_for('product_detail', product_id=product.id) }}">{{ product.name }}</a></h2>
+            <p class="product-desc">{{ product.description }}</p>
+            <div class="product-footer">
+                <span class="product-price">${{ "%.2f"|format(product.price) }}</span>
+                <div class="product-actions">
+                    <form action="{{ url_for('wishlist_toggle', product_id=product.id) }}" method="post" class="form-inline">
+                        <input type="hidden" name="next" value="{{ request.url }}">
+                        <button type="submit" class="btn-icon btn-wishlist" title="Remove from wishlist"><span class="icon-heart is-liked"></span></button>
+                    </form>
+                    <form action="{{ url_for('cart_add', product_id=product.id) }}" method="post" class="form-inline">
+                        <input type="hidden" name="next" value="{{ request.url }}">
+                        <button type="submit" class="btn-add">Add to cart</button>
+                    </form>
+                    <form action="{{ url_for('buy_now', product_id=product.id) }}" method="post" class="form-inline">
+                        <button type="submit" class="btn-buy-now">Buy now</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </article>
+    {% endfor %}
+</section>
+{% else %}
+<section class="empty">
+    <p>You haven't saved any items yet.</p>
+    <a href="{{ url_for('index') }}" class="btn btn-primary">Browse products</a>
+</section>
+{% endif %}
+{% endblock %}

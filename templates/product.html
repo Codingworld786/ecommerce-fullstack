@@ -1,0 +1,36 @@
+{% extends "base.html" %}
+{% block title %}{{ product.name }} – Thread & Co.{% endblock %}
+{% block content %}
+<section class="product-detail">
+    <div class="product-detail-grid">
+        <div class="product-detail-image-wrap">
+            <div class="product-detail-image">
+                <img src="{{ url_for('static', filename='images/products/' + product.image) }}" alt="{{ product.name }}" onerror="this.style.display='none'">
+                <span class="product-placeholder">{{ product.name[0] }}</span>
+            </div>
+        </div>
+        <div class="product-detail-info">
+            <span class="product-category">{{ 'Women' if product.category == 'women' else 'Men' }}</span>
+            <h1 class="product-detail-title">{{ product.name }}</h1>
+            <p class="product-detail-desc">{{ product.description }}</p>
+            <p class="product-detail-price">${{ "%.2f"|format(product.price) }}</p>
+            <div class="product-detail-actions">
+                <form action="{{ url_for('wishlist_toggle', product_id=product.id) }}" method="post" class="form-inline">
+                    <input type="hidden" name="next" value="{{ request.url }}">
+                    <button type="submit" class="btn btn-secondary">
+                        <span class="icon-heart{% if product.id in wishlist_ids() %} is-liked{% endif %}"></span> Wishlist
+                    </button>
+                </form>
+                <form action="{{ url_for('cart_add', product_id=product.id) }}" method="post" class="form-inline">
+                    <input type="hidden" name="next" value="{{ request.url }}">
+                    <button type="submit" class="btn btn-primary">Add to cart</button>
+                </form>
+                <form action="{{ url_for('buy_now', product_id=product.id) }}" method="post" class="form-inline">
+                    <button type="submit" class="btn btn-buy">Buy now</button>
+                </form>
+            </div>
+            <p class="product-detail-note">Free returns. Secure checkout. Demo payment only.</p>
+        </div>
+    </div>
+</section>
+{% endblock %}
