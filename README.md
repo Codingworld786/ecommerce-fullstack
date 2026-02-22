@@ -1,6 +1,6 @@
 # Thread & Co. – Ecommerce Clothing Store
 
-A full-flow Python (Flask) ecommerce site with cart, wishlist, checkout, and dummy payment – real-website feel.
+A full-flow Python (Flask) ecommerce site with cart, wishlist, checkout, and payment.
 
 ## Setup
 
@@ -23,12 +23,12 @@ Open **http://127.0.0.1:5000** in your browser.
 - **Wishlist (like)**: Heart icon on products; toggle from listing or product page; wishlist page
 - **Cart**: Add to cart, update quantity, remove; cart page with order summary
 - **Buy now**: Adds one item and goes straight to checkout
-- **Checkout**: Step 1 – shipping address (dummy form). Step 2 – payment (dummy card). Place order.
+- **Checkout**: Step 1 – shipping address. Step 2 – payment. Place order.
 - **Order confirmation**: Order ID, summary, shipping address, “Continue shopping”
 - **Header**: Search bar (placeholder), cart count, wishlist count, account placeholder
 - **Responsive**: Mobile, tablet, desktop; sticky header and footer links
 
-All data is in-session (cart, wishlist, orders). Use dummy details; replace with real payment and DB later.
+All data is in-session (cart, wishlist, orders).
 
 ## Project structure
 
@@ -48,5 +48,5 @@ ecommerce/
   static/
     css/style.css
     js/main.js
-    images/products/     # Put your product images here (see README there)
+    images/products/     # Put product images here 
 ```
