@@ -4,10 +4,10 @@ This document is the single source of truth for the **technical story**, **execu
 
 ---
 
-## 1. The Plan (Beginning to End)
+## 1. The Plan 
 
 ### Goal
-Build a **full-flow ecommerce website** (men’s and women’s clothing) that feels like a real site (e.g. Amazon-style): browse products, like/wishlist, add to cart, checkout with address and payment, and see order confirmation. Use **dummy data** everywhere so it can later be swapped for real APIs and a database.
+Build a **full-flow ecommerce website** (men’s and women’s clothing) that feels like a real site: browse products, like/wishlist, add to cart, checkout with address and payment, and see order confirmation. Use **dummy data** everywhere so it can later be swapped for real APIs and a database.
 
 ### Design Decisions Up Front
 - **Backend**: Python + Flask (simple, no DB for v1).
@@ -159,16 +159,3 @@ No formal “design doc” was written first; the plan above was the mental mode
 - **Search**: Use the search input; in a route (e.g. `index`) read `request.args.get("q")` and filter `PRODUCTS` (or query DB) before rendering.
 
 ---
-
-## 5. Resume / Portfolio – Bullet Points
-
-Use these as-is or adapt for resume or project description:
-
-- **Built a full-flow ecommerce web app in Python/Flask** with product listing, category filters (men/women), product detail pages, and responsive UI (mobile-first CSS).
-- **Implemented cart, wishlist, and checkout** using Flask session: add/update/remove cart items, toggle wishlist, multi-step checkout (shipping address + dummy payment), place order, and order confirmation page with summary and shipping details.
-- **Designed a clear request/response and state model**: server-rendered Jinja2 templates, context processor for global cart/wishlist counts, and consistent use of POST-redirect-GET for form actions to avoid duplicate submissions.
-- **Delivered a production-style UX** (header with search placeholder, cart/wishlist badges, flash messages, footer links) and documented architecture, execution steps, and developer guide in a single `PROJECT_DETAILS` file for handoff and portfolio reference.
-
----
-
-*File: `PROJECT_DETAILS.md` – Thread & Co. Ecommerce – Technical story, execution plan, component overview, developer guide, and resume bullets.*
